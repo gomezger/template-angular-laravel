@@ -30,7 +30,7 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss",
-							"src/libs/fontawesome-pro-5.13.0-web/css/all.css"
+              "src/libs/fontawesome-pro-5.13.0-web/css/all.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -128,6 +128,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "client"
+    }
+  },
+  "defaultProject": "client",
+  "cli": {
+    "analytics": "34a1143a-3861-4677-bca3-3becff6588a2"
+  }
 }
