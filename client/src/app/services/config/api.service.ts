@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { GLOBAL } from './global';
+import { GLOBAL } from '../config/global';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -10,7 +10,7 @@ export class ApiService {
 	constructor(private _http: HttpClient) {}
 
 	//headers para las consultas
-	getHeaders = (token) => {
+	protected getHeaders = (token) => {
 		return new HttpHeaders({
 			'Content-Type': 'application/json',
 			Accept: 'application/json',
@@ -20,7 +20,7 @@ export class ApiService {
 	};
 
 	//headers para las consultas
-	getHeadersFormData = (token) => {
+	protected getHeadersFormData = (token) => {
 		return new HttpHeaders().set('Authorization', 'Bearer ' + token);
 	};
 
@@ -32,6 +32,10 @@ export class ApiService {
 		return this._http.post(GLOBAL.api + path, JSON.stringify(data), { headers: this.getHeaders(token) });
 	};
 
+	postFormData = (path: string, data: FormData, token: string): Observable<any> => {
+		return this._http.post(GLOBAL.api + path, data, { headers: this.getHeadersFormData(token) });
+  };
+
 	put = (path: string, data: any, token: string): Observable<any> => {
 		return this._http.put(GLOBAL.api + path, JSON.stringify(data), { headers: this.getHeaders(token) });
 	};
@@ -40,7 +44,4 @@ export class ApiService {
 		return this._http.delete(GLOBAL.api + path, { headers: this.getHeaders(token) });
 	};
 
-	postFormData = (path: string, data: FormData, token: string): Observable<any> => {
-		return this._http.post(GLOBAL.api + path, data, { headers: this.getHeadersFormData(token) });
-	};
 }

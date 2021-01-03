@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { UserService } from './services/users/user.service';
+import { IndexedDBService } from './services/storage/indexed-db.service';
+import { LocalService } from './services/storage/local.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +10,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'client';
+
+  constructor() { }
+
 }

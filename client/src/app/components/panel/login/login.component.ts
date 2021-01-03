@@ -15,11 +15,11 @@ export class LoginComponent extends StatusComponent implements OnInit {
 	public token: string;
 
   constructor(
-		private _route: Router,
-		private _router: ActivatedRoute, 
-    private _usuario: UserService
-  ) { 
-    super();
+		protected _router: Router,
+		protected _activatedRouter: ActivatedRoute,
+    protected _usuario: UserService
+  ) {
+    super(_router);
   }
 
   ngOnInit(): void {
@@ -32,18 +32,18 @@ export class LoginComponent extends StatusComponent implements OnInit {
      */
 	async handleSubmit(e){
 		// evito que recargue pantalla el submit
-		e.preventDefault();	
-		this.setLoading(true);	
-	
+		e.preventDefault();
+		this.setLoading();
+
 		//get datos
 		const email = e.target['email'].value;
 		const password = e.target['password'].value;
 		//le paso el usuario que solo tiene la contraseña y el usuario
 		const data = await this._usuario.login(email, password).toPromise();
-		
-		if ( this.validateResponse(data) ) {
+
+		if ( this.validate(data) ) {
 			this._usuario.setLoginData(data);
-			this._route.navigate([ '/panel' ]);
+			this._router.navigate([ '/panel' ]);
 		}
 
 	}
