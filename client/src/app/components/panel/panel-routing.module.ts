@@ -13,8 +13,8 @@ const routes: Routes = [
     children:[
       { path: 'usuarios', component: UsersComponent}
     ],
-    //canActivateChild: [AdminGuard],
-    //canActivate: [AdminGuard]
+    canActivateChild: [AdminGuard],
+    canActivate: [AdminGuard]
   }
 ];
 
