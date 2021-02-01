@@ -66,7 +66,7 @@ export class UserService {
 
 	// Chequea si está el token de un user logeado o no
 	public isUserAuthenticated(): boolean {
-		const token = localStorage.getItem('token');
+		const token = this._localStorage.getItem('token');
     return (token != null && token != undefined) ? this.isValidToken() : false;
 	}
 
@@ -75,23 +75,23 @@ export class UserService {
 	}
 
 	public isAuthenticated(): boolean {
-		const token = localStorage.getItem('token');
+		const token = this._localStorage.getItem('token');
 		return token !== undefined && token !== null && this.isValidToken();
 	}
 
 	private isValidToken(): boolean {
-		const expires_at = new Date(formatDate(localStorage.getItem('expires_at'), 'yyyy/MM/dd H:m:s', 'en'));
+		const expires_at = new Date(formatDate(this._localStorage.getItem('expires_at'), 'yyyy/MM/dd H:m:s', 'en'));
 		const now = new Date(formatDate(new Date(), 'yyyy/MM/dd H:m:s', 'en'));
     return (+expires_at < +now) ? false : true;
 	}
 
 	private isAdmin(){
-		const user = JSON.parse(localStorage.getItem('user'));
+		const user = JSON.parse(this._localStorage.getItem('user'));
 		return user.tipo === 'admin';
 	}
 
 	public user(): User{
-		return (this.isUserAuthenticated()) ? JSON.parse(localStorage.getItem('user')) : null;
+		return (this.isUserAuthenticated()) ? JSON.parse(this._localStorage.getItem('user')) : null;
 	}
 
 	public dummyUser(): User{
@@ -99,7 +99,7 @@ export class UserService {
 	}
 
 	public getToken() {
-		const token = localStorage.getItem('token');
+		const token = this._localStorage.getItem('token');
     return (token !== 'undefined') ? token : null;
 	}
 
