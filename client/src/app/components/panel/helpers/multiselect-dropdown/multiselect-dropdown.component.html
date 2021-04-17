@@ -1,0 +1,25 @@
+<div [id]="'elegidos-' + tag" class="col-12 pl-0 elegidos"  *ngIf="!agregar" >
+  <div *ngFor="let item of selected; let i = index" class="elegido" (click)="remove(item)">
+    {{ item[key] }} <i class="far fa-times pl-1"></i>
+  </div>
+  <div  class="agregar text-info" (click)="agregar = true">
+    <i class="far fa-plus pr-1"></i> Agregar
+  </div>
+</div>
+
+<div [id]="'lista-'+ tag" *ngIf="agregar" >
+  <div class="col-12 buscador mt-2">
+    <input type="text" class="form-control" placeholder="Filtrar" (input)="filter($event)" required>
+  </div>
+
+  <div class="col-12 list" id="style-2">
+    <div *ngFor="let item of listFilter; let i = index" class="custom-control custom-checkbox pl-0">
+      <div class="option d-flex flex-row justify-content-between" (click)="add(item); agregar = false">
+        <div>{{ item[key] }}</div>
+        <div class="pr-2 text-info"><small>Agregar</small></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

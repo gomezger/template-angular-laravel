@@ -5,13 +5,13 @@ use App\Exceptions\ValidatorException;
 
 class Validator{
 
-    public static function validator($data, $conditions){  
-        $validate = \Validator::make($data, $conditions);
+    public static function validator($data, $conditions, $messages = []){
+        $validate = \Validator::make($data, $conditions, $messages);
         if ($validate->fails())
             throw new ValidatorException("Error al validar datos", self::errores($validate->errors()));
     }
 
-    
+
     protected static function errores($arreglo_validator){
         $arreglo = json_decode(json_encode($arreglo_validator), true);
         $errores = array();

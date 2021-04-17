@@ -1,0 +1,42 @@
+<div class="div-tabla table-responsive">
+    <upso-filter
+      [list]="users"
+      [keys]="keys"
+      (newList)="users_filter = $event"
+    >
+    </upso-filter>
+
+    <xeron-form-user [title]="'Crear usuario'" (updateTable)="insertElement($event)"></xeron-form-user>
+
+    <table class="table table-hover fixed">
+      <thead>
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">E-mail</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <div *ngIf="users.length > 0; then thenBlock; else elseBlock"></div>
+
+        <ng-template #thenBlock>
+          <tr *ngFor=" let user of users_filter  | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+            <td>{{ user.nombre }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <xeron-form-user [title]="'Editar usuario'" [user]="user" (updateTable)="updateElement($event)"></xeron-form-user>
+              <!--<upso-delete-user [user]="user" (updateTable)="deleteElement($event)"></upso-delete-user> -->
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template #elseBlock>
+          <tr>
+            <td class="no-data" colspan="5">No existen usuarios</td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+
+    <pagination-controls class="pagination" (pageChange)="currentPage = $event" autoHide="true" responsive="true"
+      directionLinks="true" previousLabel="Anterior" nextLabel="Siguiente" maxSize="6"></pagination-controls>
+  </div>

@@ -15,7 +15,7 @@ class AuthController extends Controller
         $data['password'] = bcrypt($data['password']);
         $user = UserRepo::insert($data);
 
-        return Response::success('Usuario creado', 'usuario', $user);
+        return Response::success($user);
     }
 
     public function login(Request $request){
@@ -23,7 +23,7 @@ class AuthController extends Controller
         $data = $request->all();
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials))
-            return Response::error("401","Error login",['Email o contraseña incorrecto/s']);
+            return Response::error("401",['Email o contraseña incorrecto/s']);
 
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
@@ -37,7 +37,6 @@ class AuthController extends Controller
         $expires = Carbon::parse($tokenResult->token->expires_at)->toDateTimeString();
 
         return Response::success(
-                "Usuario logueado",
                 [
                     "access_token" => $tokenResult->accessToken,
                     "token_type" => 'Bearer',
@@ -68,11 +67,11 @@ class AuthController extends Controller
 
     public function update(Request $request) {
         $user = UserRepo::update($request->all()['id'], $request->all());
-        return Response::success('Usuario actualizado', 'usuario', $user);
+        return Response::success($user);
     }
 
     public function userById(Request $request, $id) {
-        return Response::success('Usuario existente', 'usuario', UserRepo::find($id));
+        return Response::success(UserRepo::find($id));
     }
 
 }

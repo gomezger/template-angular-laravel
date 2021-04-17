@@ -23,9 +23,9 @@ export class IndexedDBService extends StorageService {
    */
   async setItem(key: string, value: any, days: number = this.days) {
     try {
-      await this.dbService.update(this.storage, { key: key, value: JSON.stringify(this.create(value, days)) }).subscribe(
-        (storeData) => { return true; },
-        (error) => { return false; }
+      await this.dbService.update(this.storage, { key: this.generateKey(key), value: JSON.stringify(this.create(value, days)) }).subscribe(
+        (storeData) => true,
+        (error) => false
       );
     } catch (e) {
       console.log(e);
@@ -40,6 +40,7 @@ export class IndexedDBService extends StorageService {
    */
   async getItem(key: string) {
     try {
+      key = this.generateKey(key);
       const result = await this.dbService.getByKey(this.storage, key).toPromise(); // busco el dato
       const value = (result && result.value) ? JSON.parse(result.value) : null; // lo parseo si no es nulo
       return value && value.expires && !this.expires(value.expires, key) ? value.data : null; // si no expirón retorno el dato
@@ -55,6 +56,6 @@ export class IndexedDBService extends StorageService {
    * @param key clave con la que se guarda el dato
    */
   async removeItem(key: string) {
-    await this.dbService.delete(this.storage, key).toPromise();
+    await this.dbService.delete(this.storage, this.generateKey(key)).toPromise();
   }
 }

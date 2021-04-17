@@ -1,0 +1,25 @@
+<div class="upload col-12 p-0">
+  <div class="col-8 nombre">
+    {{
+    (file && file.name)
+      ? (file.name.length>34)
+        ? file.name.substr(0,10) + '...' + file.name.substr(file.name.length-20,file.name.length-1)
+        : file.name
+      : 'Debe ingresar el archivo'
+    }}
+  </div>
+  <label class="col-4 boton" for="inputfile">
+    <input class="upload-btn" name="inputfile" type="file" (change)="fileChanged($event)">
+    <i class="fas fa-upload mr-2"></i> Buscar
+  </label>
+
+  <div *ngIf="status.errores && status.errores.length>0" class="col-12 pl-0 pr-0">
+    <small *ngFor="let error of status.errores" class="text-danger">{{error}}</small>
+  </div>
+
+  <div *ngIf="progress>0 && !this.status.errores" class="progress col-12 pl-0 pr-0">
+    <div class="progress-bar  progress-bar-striped progress-bar-animated bg-secondary" role="progressbar" [style]="'width: ' + progress + '%;'" [attr.aria-valuenow]="progress" aria-valuemin="0" aria-valuemax="100">
+      {{ (progress===100) ? 'Completado' : progress + '%' }}
+    </div>
+  </div>
+</div>

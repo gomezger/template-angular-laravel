@@ -8,29 +8,31 @@ import { UserService } from '../services/users/user.service';
 })
 export class AdminGuard implements CanActivateChild {
 
-  constructor (
+  constructor(
     private _usuario: UserService,
     private _router: Router
   ) {
   }
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {   
-      if ( this._usuario.isAuthenticatedAdmin() ) {
-        return true;
-      } else {
-        this._router.navigate(['/panel/login']);
-        return false;
-      }
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot)
+    : Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+
+    if (this._usuario.isAuthenticatedAdmin()) {
+      return true;
+    } else {
+      this._router.navigate(['/panel/login']);
       return false;
+    }
+    return false;
   }
 
-  canActivateChild(): boolean {    
-    if ( this._usuario.isAuthenticatedAdmin() ) {
+  canActivateChild(): boolean {
+    if (this._usuario.isAuthenticatedAdmin()) {
       return true;
     } else {
       this._router.navigate(['/panel/login']);
       return false;
     }
   }
-  
+
 }

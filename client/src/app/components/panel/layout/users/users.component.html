@@ -1,1 +1,11 @@
-<p>users works!</p>
+<h1> Usuarios </h1>
+
+<div *ngIf="status.loading" class="spinner-border text-danger" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
+
+<div class="col-12 mt-2 p-0 float-left" *ngIf="status.errores">
+  <div class="alert alert-danger" *ngFor="let error of status.errores">{{error}}</div>
+</div>
+
+<xeron-table *ngIf="status.success" [users]="users"></xeron-table>

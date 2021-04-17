@@ -6,10 +6,12 @@ import { Injectable } from '@angular/core';
 export class StorageService {
   protected storage;
   protected days: number;
+  protected prefix: string;
 
   protected constructor() {
-    this.storage = localStorage
+    this.storage = localStorage;
     this.days = 14;
+    this.prefix = 'template';
   }
 
   /**
@@ -21,7 +23,7 @@ export class StorageService {
   public setItem(key: string, value: any, days: number = this.days) {
     try {
       const data = this.create(value, days); // seteo el vencimiento de dato
-      this.storage.setItem(key, JSON.stringify(data)); // lo guardo en el storage
+      this.storage.setItem(this.generateKey(key), JSON.stringify(data)); // lo guardo en el storage
     } catch (e) {
       console.log(e);
     }
@@ -33,6 +35,7 @@ export class StorageService {
    */
   public getItem(key: string) {
     try {
+      key = this.generateKey(key);
       const value = JSON.parse(this.storage.getItem(key)); // obtengo el data del storage
       return value && value['data'] !== null && !this.expires(value['expires'], key) // si expiró el dato, lo elimino y retorno null
         ? value['data']
@@ -48,7 +51,7 @@ export class StorageService {
    * @param key clave con la que se guarda el dato
    */
   public removeItem(key: string) {
-    this.storage.removeItem(key);
+    this.storage.removeItem(this.generateKey(key));
   }
 
   /**
@@ -87,4 +90,7 @@ export class StorageService {
     date.setDate(date.getDate() + days);
     return date;
   }
+
+  protected generateKey = (key: string): string => this.prefix + '-' + key;
+
 }

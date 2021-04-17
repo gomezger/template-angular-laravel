@@ -1,5 +1,5 @@
 <div class="container">
-    
+
     <div id="cabeza">
         Panel de Control
         </div>
@@ -10,16 +10,16 @@
                     <label for="email">Nombre de Usuario</label>
                     <input required type="text" class="form-control" id="email" name="email" placeholder="Usuario">
                     <label for="password">Contraseña</label>
-                    <input required type="text" class="form-control" type="password" id="password" name="password" placeholder="Contraseña">                                
+                    <input required type="text" class="form-control" type="password" id="password" name="password" placeholder="Contraseña">
                 </div>
 
-                <div *ngIf="errores && errores.length>0" class="col-12 pl-2 pr-2">
-                    <div class="alert alert-danger"><small *ngFor="let error of errores">{{error}}</small></div>
+                <div *ngIf="status.errores && status.errores.length>0" class="col-12 pl-2 pr-2">
+                    <div class="alert alert-danger"><small *ngFor="let error of status.errores">{{error}}</small></div>
                 </div>
-             
+
                 <button type="submit" class="btn btn-danger" >
-                    <small-loading class="mr-2" *ngIf="loading" [color]="'text-ligth'"></small-loading>
                     <span>Acceder</span>
+                    <span *ngIf="status.loading" class="ml-2"><i class="fad fa-spinner-third fa-spin"></i></span>
                 </button>
             </form>
         </div>

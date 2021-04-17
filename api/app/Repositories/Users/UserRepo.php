@@ -4,7 +4,7 @@ namespace App\Repositories\Users;
 
 use App\Models\Users\User;
 
-class UserRepo {    
+class UserRepo {
 
     public static function find($id){
         return User::find($id);
@@ -14,13 +14,17 @@ class UserRepo {
         return User::where('email',$email)->first();
     }
 
-    public static function insert($data){        
+    public static function all(){
+        return User::orderBy('nombre','ASC')->get();
+    }
+
+    public static function insert($data){
         return User::create($data);
     }
 
     public static function update($id, $data){
         $user = self::find($id);
-        $user->update($data);        
+        $user->update($data);
         return $user;
     }
 

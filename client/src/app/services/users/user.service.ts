@@ -9,102 +9,120 @@ import { formatDate } from '@angular/common';
   providedIn: 'root'
 })
 export class UserService {
-	public url: string;
-	public identity: User;
-	public token: string;
+  public url: string;
+  public identity: User;
+  public token: string;
 
   constructor(
     private _api: ApiService,
     private _localStorage: LocalService
   ) { }
 
-	public login(email: string, password: string): Observable<any> {
-		let data = {
-			email: email,
-			password: password,
-			remember_me: true
-		};
-		return this._api.post('auth/login', data, null);
-	}
+  public login(email: string, password: string): Observable<any> {
+    const data = {
+      email,
+      password,
+      remember_me: true
+    };
+    return this._api.post('auth/login', data, null);
+  }
 
-	public logout() {
-		this.deleteLoginData();
-	}
+  public logout(): void {
+    this.deleteLoginData();
+  }
 
-	public registro(nombre: string, apellido: string, email: string, password: string, password_confirmation: string, tipo: string): Observable<any> {
-		const data = {
-			email: email,
-			nombre: nombre,
-			apellido: apellido,
-			password: password,
-			password_confirmation: password_confirmation,
-			tipo: tipo
-		};
-		return this._api.post('auth/signup', data, null);
-	}
+  public registro(nombre: string, apellido: string, email: string, password: string, password_confirmation: string, tipo: string)
+    : Observable<any> {
 
-	public delete(email: string, token: string): Observable<any> {
-		const data = {
-			email: email
-		}
-		return this._api.post('auth/delete', data, token);
-	}
+    const data = { email, nombre, apellido, password, password_confirmation, tipo };
+    return this._api.post('auth/signup', data, null);
+  }
 
-	public setLoginData(data: any): void {
-		this._localStorage.setItem('token', data.access_token);
-		this._localStorage.setItem('expires_at', data.expires_at);
-		this._localStorage.setItem('user', JSON.stringify(data.user));
-		this._localStorage.setItem('isLoggedin', 'true');
-	}
+  public delete(email: string, token: string): Observable<any> {
+    const data = { email };
+    return this._api.post('auth/delete', data, token);
+  }
 
-	private deleteLoginData(): void {
-		this._localStorage.removeItem('token');
-		this._localStorage.removeItem('expires_at');
-		this._localStorage.removeItem('user');
-		this._localStorage.setItem('isLoggedin', 'false');
-	}
+  public setLoginData(data: any): void {
+    const { access_token, expires_time, expires_at, user } = data;
+    this._localStorage.setItem('token', access_token, expires_time);
+    this._localStorage.setItem('expires_at', expires_at, expires_time);
+    this._localStorage.setItem('user', JSON.stringify(user), expires_time);
+    this._localStorage.setItem('isLoggedin', 'true', expires_time);
+  }
 
-	// Chequea si está el token de un user logeado o no
-	public isUserAuthenticated(): boolean {
-		const token = this._localStorage.getItem('token');
-    return (token != null && token != undefined) ? this.isValidToken() : false;
-	}
+  private deleteLoginData(): void {
+    this._localStorage.removeItem('token');
+    this._localStorage.removeItem('expires_at');
+    this._localStorage.removeItem('user');
+    this._localStorage.setItem('isLoggedin', 'false');
+  }
 
-	public isAuthenticatedAdmin(): boolean {
-		return this.isAuthenticated() && this.isAdmin();
-	}
+  // Chequea si está el token de un user logeado o no
+  public isUserAuthenticated(): boolean {
+    const token = this._localStorage.getItem('token');
+    return (token != null && token !== undefined) ? this.isValidToken() : false;
+  }
 
-	public isAuthenticated(): boolean {
-		const token = this._localStorage.getItem('token');
-		return token !== undefined && token !== null && this.isValidToken();
-	}
+  public isAuthenticatedAdmin(): boolean {
+    return this.isAuthenticated() && this.isAdmin();
+  }
 
-	private isValidToken(): boolean {
-		const expires_at = new Date(formatDate(this._localStorage.getItem('expires_at'), 'yyyy/MM/dd H:m:s', 'en'));
-		const now = new Date(formatDate(new Date(), 'yyyy/MM/dd H:m:s', 'en'));
-    return (+expires_at < +now) ? false : true;
-	}
+  public isAuthenticated(): boolean {
+    const token = this._localStorage.getItem('token');
+    if (token !== undefined && token !== null && this.isValidToken()) {
+      return true;
+    } else {
+      this.deleteLoginData();
+      return false;
+    }
+  }
 
-	private isAdmin(){
-		const user = JSON.parse(this._localStorage.getItem('user'));
-		return user.tipo === 'admin';
-	}
+  private isValidToken(): boolean {
+    const expiresAt = new Date(formatDate(this._localStorage.getItem('expires_at'), 'yyyy/MM/dd H:m:s', 'en'));
+    const now = new Date(formatDate(new Date(), 'yyyy/MM/dd H:m:s', 'en'));
+    return +expiresAt >= +now;
+  }
 
-	public user(): User{
-		return (this.isUserAuthenticated()) ? JSON.parse(this._localStorage.getItem('user')) : null;
-	}
+  private isAdmin(): boolean {
+    const user = JSON.parse(this._localStorage.getItem('user'));
+    return user.role === 'admin';
+  }
 
-	public dummyUser(): User{
-		return new User(0,'','','','','','','');
-	}
+  public user(): User {
+    return (this.isUserAuthenticated()) ? JSON.parse(this._localStorage.getItem('user')) : null;
+  }
 
-	public getToken() {
-		const token = this._localStorage.getItem('token');
-    return (token !== 'undefined') ? token : null;
-	}
+  public getToken(): string {
+    const token = this._localStorage.getItem('token');
+    return (token !== undefined) ? token : null;
+  }
 
-	getUsuario(id: number, token: string): Observable<any> {
-		return this._api.get('user/' + id, token);
-	}
+  getUsuario(id: number, token: string): Observable<any> {
+    return this._api.get('user/' + id, token);
+  }
+
+  public dummy(): User {
+    return new User(0, '', '', '', '', '', '', '');
+  }
+
+  all(token: string): Observable<any> {
+    return this._api.get('user/', token);
+  }
+  insert(user: User, token: string): Observable<any> {
+    return this._api.post('user/', user, token);
+  }
+  update({ id, nombre, email, password, role }: User, token: string): Observable<any> {
+    const data = {
+      id,
+      nombre,
+      email,
+      role
+    };
+    if (password && password.length > 0) { data['password'] = password; }
+    return this._api.put('user/', data, token);
+  }
+
+
 
 }

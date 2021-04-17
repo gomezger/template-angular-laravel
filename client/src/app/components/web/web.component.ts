@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-web',
+  selector: 'xeron-web',
   templateUrl: './web.component.html',
   styleUrls: ['./web.component.scss']
 })

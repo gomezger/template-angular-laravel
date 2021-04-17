@@ -2,7 +2,8 @@
 
 return [
 
-    /*
+
+   /*
     |--------------------------------------------------------------------------
     | Default Mailer
     |--------------------------------------------------------------------------
@@ -86,6 +87,7 @@ return [
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
+        'support' => env('MAIL_SUPPORT', 'hello@example.com'),
     ],
 
     /*

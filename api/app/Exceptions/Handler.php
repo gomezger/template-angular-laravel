@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\MailNotifications\MailNotifications;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -50,13 +51,22 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        if($exception instanceof \App\Exceptions\ExceptionManager){
-            return response()->json(
-                \App\Helpers\Response\Response::error(
-                    $exception->getErrorCode(), 
-                    $exception->getMessage(), 
-                    $exception->getErrors()
-                )
+        if ($exception instanceof \App\Exceptions\ExceptionManager) {
+            return \App\Helpers\Response\Response::error($exception->getErrorCode(), $exception->getErrors());
+
+        }else if ($exception->getMessage() !== '' && $exception->getMessage() !== 'Unauthenticated') {
+
+            $avisos = new MailNotifications(config('mail.from.support'));
+            $avisos->fatal_error(
+                'Error en la web',
+                [
+                    'message' => $exception->getMessage(),
+                    'code' => $exception->getCode(),
+                    'file' => $exception->getFile(),
+                    'line' => $exception->getLine(),
+                    'trace' => $exception->getTrace(),
+                    'trace_string' => $exception->getTraceAsString(),
+                ]
             );
         }
         return parent::render($request, $exception);

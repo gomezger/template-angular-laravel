@@ -1,0 +1,56 @@
+.upload-btn {
+  position: absolute;
+  left    : 0;
+  opacity : 0;
+  cursor  : pointer;
+}
+
+label[for="inputfile"] {
+  color           : #fff;
+  background-color: #ac2929;
+  display         : inline-block;
+  transition      : all .5s;
+  padding         : 7px 0px !important;
+  text-align      : center;
+  width           : 100%;
+  border-radius   : 0 5px 5px 0;
+  cursor          : pointer;
+  height          : 35px;
+  font-size       : 16px;
+}
+
+input[type='file'] #inputfile {
+  width   : 0.1px;
+  height  : 0.1px;
+  opacity : 0;
+  overflow: hidden;
+  position: absolute;
+  z-index : -1;
+  cursor  : pointer;
+}
+
+.upload {
+  display  : flex;
+  flex-wrap: wrap;
+}
+
+.nombre {
+  background-color: #EEE;
+  border-radius   : 5px 0 0 5px;
+  height          : 35px;
+  display         : flex;
+  flex-direction  : row;
+  justify-content : flex-start;
+  align-content   : center;
+  overflow        : hidden;
+  line-height     : 35px;
+}
+
+.boton {
+  display: inline-block;
+  cursor : pointer;
+}
+
+.subiendo {
+  padding-top: 2px;
+}

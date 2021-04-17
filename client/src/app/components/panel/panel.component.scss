@@ -77,6 +77,10 @@
 	}
 }
 
+.div-tabla {
+  min-width: 600px;
+}
+
 /* Tabla */
 thead {
 	background-color: #002f61;
@@ -187,7 +191,7 @@ tbody tr:last-child td:last-child {
 }
 
 .no-data {
-	text-align: center;
+	text-align: left;
 }
 
 .titulo {
@@ -220,4 +224,12 @@ tbody tr:last-child td:last-child {
 	.titulo {
 		margin-top: 5px;
 	}
+}
+
+h1{
+  padding    : 0;
+  margin     : 15px 0px;
+  font-size  : 29px;
+  font-weight: 500;
+  font-family: 'Montserrat', 'Open Sans', sans-serif;
 }

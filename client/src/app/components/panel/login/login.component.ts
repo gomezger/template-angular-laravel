@@ -1,51 +1,54 @@
 import { Component, OnInit } from '@angular/core';
-import { StatusComponent } from '../../../extends/status/status.component';
+import Status from '../../../helpers/status';
 import { User } from 'src/app/models/users/user';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/users/user.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-login',
+  selector: 'xeron-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent extends StatusComponent implements OnInit {
-	public usuario: User;
-	public identity: User;
-	public token: string;
+export class LoginComponent implements OnInit {
+  public usuario: User;
+  public identity: User;
+  public token: string;
+  public status: Status;
 
   constructor(
-		protected _router: Router,
-		protected _activatedRouter: ActivatedRoute,
-    protected _usuario: UserService
-  ) {
-    super(_router);
-  }
+    private _router: Router,
+    private _usuario: UserService,
+    private _title: Title
+  ) { }
 
   ngOnInit(): void {
+    this.status = new Status();
+    this._title.setTitle('Ingresar | Panel de Control');
   }
 
   /**
-     * Inicia sesion con los datos cargados.
-     * Utiliza los datos que se guardaron el la variable usuario.
-     * Si es exitoso, guarda en el local storage el objeto usuario y el token.
-     */
-	async handleSubmit(e){
-		// evito que recargue pantalla el submit
-		e.preventDefault();
-		this.setLoading();
+   * Inicia sesion con los datos cargados.
+   * Utiliza los datos que se guardaron el la variable usuario.
+   * Si es exitoso, guarda en el local storage el objeto usuario y el token.
+   */
+  handleSubmit(e: any): void {
+    // evito que recargue pantalla el submit
+    e.preventDefault();
+    this.status.setLoading();
 
-		//get datos
-		const email = e.target['email'].value;
-		const password = e.target['password'].value;
-		//le paso el usuario que solo tiene la contraseña y el usuario
-		const data = await this._usuario.login(email, password).toPromise();
+    // get datos
+    const { email, password } = e.target;
 
-		if ( this.validate(data) ) {
-			this._usuario.setLoginData(data);
-			this._router.navigate([ '/panel' ]);
-		}
-
-	}
+    this._usuario.login(email.value, password.value).subscribe({
+      next: ({ access_token, token_type, expires_at, user }) => {
+        this._usuario.setLoginData({ access_token, token_type, expires_at, user });
+        this.status.setSuccess();
+        this._router.navigate(['/panel/usuarios']);
+      },
+      complete: () => this._router.navigate(['/panel']),
+      error: error => this.status.processError(error)
+    });
+  }
 
 }

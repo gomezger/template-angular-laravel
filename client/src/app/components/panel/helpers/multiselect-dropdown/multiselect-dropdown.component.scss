@@ -1,0 +1,79 @@
+#lista{
+  display: inline-block;
+}
+
+#elegidos{
+  display: inline-block;
+}
+
+
+.buscador {
+  padding: 0 !important;
+}
+
+.buscador .form-control{
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  padding: 5px 15px;
+  font-size: 15px;
+  max-width: 500px;
+}
+
+.list {
+  border: solid #EEE 1px;
+  border-radius: 5px;
+  height: 100px;
+  overflow-y: scroll;
+  padding: 5px;
+  max-width: 500px;
+}
+
+.list .option{
+  padding: 5px;
+  border-bottom: solid #EEE 1px;
+  cursor: pointer;
+}
+
+.list .option:hover{
+  background-color: rgba(165, 223, 223, 0.425);
+}
+
+.elegidos{
+  margin: 0;
+  display: inline-block;
+}
+
+.elegidos .elegido{
+  margin-right: 10px;
+  margin-bottom: 3px;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.815);
+  border-radius: 5px;
+  color: #EFEFEF;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.elegidos .agregar{
+  margin-right: 10px;
+  display: inline-block;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+#style-2::-webkit-scrollbar-track{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+}
+
+#style-2::-webkit-scrollbar{
+	width: 7px;
+}
+
+#style-2::-webkit-scrollbar-thumb{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #D62929;
+}
