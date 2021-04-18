@@ -13,6 +13,7 @@
         <tr>
           <th scope="col">Nombre</th>
           <th scope="col">E-mail</th>
+          <th scope="col">Tipo</th>
           <th scope="col">Acciones</th>
         </tr>
       </thead>
@@ -23,6 +24,7 @@
           <tr *ngFor=" let user of users_filter  | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
             <td>{{ user.nombre }}</td>
             <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
             <td>
               <xeron-form-user [title]="'Editar usuario'" [user]="user" (updateTable)="updateElement($event)"></xeron-form-user>
               <!--<upso-delete-user [user]="user" (updateTable)="deleteElement($event)"></upso-delete-user> -->

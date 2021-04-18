@@ -15,7 +15,7 @@ export class TableComponent implements OnInit {
 
 
   constructor() {
-    this.keys = ['nombre', 'email'];
+    this.keys = ['nombre', 'email', 'role'];
   }
 
   ngOnInit(): void {
