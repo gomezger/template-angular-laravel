@@ -26,10 +26,10 @@ class AuthController extends Controller
             return Response::error("401",['Email o contraseña incorrecto/s']);
 
         $user = $request->user();
-        $tokenResult = $user->createToken('Personal Access Token');
+        $tokenResult = $user->createToken('Personal Access Token para '. $credentials['email']);
         $token = $tokenResult->token;
         if ($request->remember_me) {
-            $token->expires_at = Carbon::now()->addWeeks(1);
+            $token->expires_at = Carbon::now()->addDays(1);
         }
         $token->save();
 
