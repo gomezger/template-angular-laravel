@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'upso-title',
+  selector: 'xeron-title',
   templateUrl: './title.component.html',
   styleUrls: ['./title.component.scss']
 })

@@ -1,0 +1,6 @@
+.filtro:focus {
+  box-shadow: unset !important;
+  outline   : unset !important;
+  border-bottom-color: rgb(180, 0, 0) !important;
+  transition: 0.5s;
+}

@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use App\Helpers\Users\UserPassport;
 
-class IsAdmin
+class IsMayorista
 {
     /**
      * Handle an incoming request.
@@ -20,10 +20,10 @@ class IsAdmin
     {
         $user = UserPassport::user($request->header('Authorization'));
 
-        if ( isset($user) && isset($user->role) && $user->role === 'admin') {
+        if ( isset($user) && isset($user->role) && $user->role === 'mayorista') {
             return $next($request);
         } else {
-            return Response::error('401', ['Acceso denegado: es necesario ser \'admin\'']);
+            return Response::error('401', ['Acceso denegado: es necesario ser \'mayorista\'']);
         }
     }
 }

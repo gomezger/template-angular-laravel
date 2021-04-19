@@ -16,9 +16,9 @@ class UserController extends Controller
         return Response::success($users);
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, $email)
     {
-        $user = UserRepo::delete($request->all()['email']);
+        $user = UserRepo::delete($email);
         return Response::success($user);
     }
 

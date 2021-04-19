@@ -2,13 +2,14 @@ import { FilterService } from './../../../../services/filters/filter.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'upso-filter',
+  selector: 'xeron-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss', '../../panel.component.scss']
 })
 export class FilterComponent implements OnInit {
   @Input() list: Array<any>;
   @Input() keys: Array<string>;
+  @Input() placeholder: string;
   @Output() newList: EventEmitter<Array<any>> = new EventEmitter();
   public textPlaceholder: string;
 
@@ -18,9 +19,7 @@ export class FilterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const keys = this.acomodar(this.keys);
-    this.textPlaceholder = 'Filtrar por ' + keys.slice(0, keys.length - 1).join(', ');
-    this.textPlaceholder += (keys.length === 1) ? keys[0] : ' o ' + keys[keys.length - 1];
+    this.setPlaceHolher(this.placeholder);
   }
 
   filtrar({ target: { value } }): void {
@@ -34,6 +33,16 @@ export class FilterComponent implements OnInit {
       res = [...res, aux[aux.length - 1]];
     }
     return res;
+  }
+
+  private setPlaceHolher(placeholder: string): void {
+    if (placeholder === undefined) {
+      const keys = this.acomodar(this.keys);
+      this.textPlaceholder = 'Filtrar por ' + keys.slice(0, keys.length - 1).join(', ');
+      this.textPlaceholder += (keys.length === 1) ? keys[0] : ' o ' + keys[keys.length - 1];
+    } else {
+      this.textPlaceholder = placeholder;
+    }
   }
 
 }

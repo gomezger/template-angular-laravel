@@ -2,7 +2,7 @@ import { FilterService } from './../../../../services/filters/filter.service';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'upso-multiselect-dropdown',
+  selector: 'xeron-multiselect-dropdown',
   templateUrl: './multiselect-dropdown.component.html',
   styleUrls: ['./multiselect-dropdown.component.scss']
 })

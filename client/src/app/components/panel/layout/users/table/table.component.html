@@ -1,12 +1,13 @@
 <div class="div-tabla table-responsive">
-    <upso-filter
+    <xeron-filter
       [list]="users"
       [keys]="keys"
-      (newList)="users_filter = $event"
+      [placeholder]="'Buscar por nombre, email o tipo'"
+      (newList)="table.elements_filter = $event"
     >
-    </upso-filter>
+    </xeron-filter>
 
-    <xeron-form-user [title]="'Crear usuario'" (updateTable)="insertElement($event)"></xeron-form-user>
+    <xeron-form-user [title]="'Crear usuario'" (updateTable)="table.insertElement($event)"></xeron-form-user>
 
     <table class="table table-hover fixed">
       <thead>
@@ -18,27 +19,28 @@
         </tr>
       </thead>
       <tbody>
-        <div *ngIf="users.length > 0; then thenBlock; else elseBlock"></div>
+        <div *ngIf="table.elements_filter.length > 0; then thenBlock; else elseBlock"></div>
 
         <ng-template #thenBlock>
-          <tr *ngFor=" let user of users_filter  | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+          <tr *ngFor=" let user of table.elements_filter  | paginate: { itemsPerPage: table.itemsPerPage, currentPage: table.currentPage }">
             <td>{{ user.nombre }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.role }}</td>
             <td>
-              <xeron-form-user [title]="'Editar usuario'" [user]="user" (updateTable)="updateElement($event)"></xeron-form-user>
-              <!--<upso-delete-user [user]="user" (updateTable)="deleteElement($event)"></upso-delete-user> -->
+              <xeron-form-user [title]="'Editar usuario'" [user]="user" (updateTable)="table.updateElement($event)"></xeron-form-user>
+              <xeron-delete-user [user]="user" (updateTable)="table.deleteElement($event)"></xeron-delete-user>
             </td>
           </tr>
         </ng-template>
         <ng-template #elseBlock>
           <tr>
-            <td class="no-data" colspan="5">No existen usuarios</td>
+            <td *ngIf="table.elements_filter.length == 0 && users.length>0" class="no-data text-center" colspan="4">No existen usuarios con el filtro ingresado</td>
+            <td *ngIf="users.length == 0" class="no-data text-center" colspan="4">No existen usuarios</td>
           </tr>
         </ng-template>
       </tbody>
     </table>
 
-    <pagination-controls class="pagination" (pageChange)="currentPage = $event" autoHide="true" responsive="true"
+    <pagination-controls class="pagination" (pageChange)="table.currentPage = $event" autoHide="true" responsive="true"
       directionLinks="true" previousLabel="Anterior" nextLabel="Siguiente" maxSize="6"></pagination-controls>
   </div>

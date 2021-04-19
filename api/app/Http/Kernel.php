@@ -69,6 +69,8 @@ class Kernel extends HttpKernel
         'auth.login' => \App\Http\Middleware\Auth\LoginMiddleware::class,
         'auth.signup' => \App\Http\Middleware\Auth\SignupMiddleware::class,
         'auth.isAdmin' => \App\Http\Middleware\Auth\IsAdmin::class,
+        'auth.isMinorista' => \App\Http\Middleware\Auth\isMinorista::class,
+        'auth.isMayorista' => \App\Http\Middleware\Auth\IsMayorista::class,
 
         //user
         'user.data' => \App\Http\Middleware\Auth\UserData::class,

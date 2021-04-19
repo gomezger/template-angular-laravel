@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use App\Helpers\Users\UserPassport;
 
-class IsAdmin
+class IsMinorista
 {
     /**
      * Handle an incoming request.

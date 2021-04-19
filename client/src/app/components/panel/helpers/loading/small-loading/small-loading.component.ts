@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'upso-small-loading',
+  selector: 'xeron-small-loading',
   templateUrl: './small-loading.component.html',
   styleUrls: ['./small-loading.component.scss']
 })

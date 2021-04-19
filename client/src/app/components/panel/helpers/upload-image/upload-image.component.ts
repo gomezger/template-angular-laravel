@@ -4,7 +4,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import Status from '../../../../helpers/status';
 
 @Component({
-  selector: 'upso-upload-image',
+  selector: 'xeron-upload-image',
   templateUrl: './upload-image.component.html',
   styleUrls: ['./upload-image.component.scss']
 })

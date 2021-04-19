@@ -38,11 +38,6 @@ export class UserService {
     return this._api.post('auth/signup', data, null);
   }
 
-  public delete(email: string, token: string): Observable<any> {
-    const data = { email };
-    return this._api.post('auth/delete', data, token);
-  }
-
   public setLoginData(data: any): void {
     const { access_token, expires_time, expires_at, user } = data;
     this._localStorage.setItem('token', access_token, expires_time);
@@ -121,6 +116,10 @@ export class UserService {
     };
     if (password && password.length > 0) { data['password'] = password; }
     return this._api.put('user/', data, token);
+  }
+
+  public delete(email: string, token: string): Observable<any> {
+    return this._api.del('user/' + email, token);
   }
 
 

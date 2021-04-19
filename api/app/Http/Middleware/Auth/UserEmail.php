@@ -16,11 +16,14 @@ class UserEmail
      */
     public function handle($request, Closure $next)
     {
+
+        $email = (isset($request->all()['email']))
+            ? $request->all()['email']
+            : $request->route('email', null);
+
         Validator::validator(
-            $request->all(),
-            array(
-                'email' => 'required|string|email|exists:users,email'
-            )
+            ['email' => $email],
+            ['email' => 'required|string|email|exists:users,email']
         );
 
         return $next($request);

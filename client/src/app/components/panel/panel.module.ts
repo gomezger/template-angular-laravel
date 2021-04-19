@@ -14,6 +14,7 @@ import { SmallLoadingComponent } from './helpers/loading/small-loading/small-loa
 import { FilterComponent } from './helpers/filter/filter.component';
 import { FormComponent as UserFormComponent } from './layout/users/form/form.component';
 import { TableComponent as UsersTableComponent } from './layout/users/table/table.component';
+import { DeleteComponent as UserDeleteComponent } from './layout/users/delete/delete.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { TableComponent as UsersTableComponent } from './layout/users/table/tabl
     UploadImageComponent,
     UsersComponent,
     UsersTableComponent,
-    UserFormComponent
+    UserFormComponent,
+    UserDeleteComponent
 
   ],
   imports: [
