@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { GLOBAL } from '../config/global';
+import { GLOBAL } from '../../helpers/global';
 import { Injectable } from '@angular/core';
 
 @Injectable({

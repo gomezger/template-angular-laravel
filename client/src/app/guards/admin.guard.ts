@@ -16,22 +16,20 @@ export class AdminGuard implements CanActivateChild {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot)
     : Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
     if (this._usuario.isAuthenticatedAdmin()) {
       return true;
     } else {
       this._router.navigate(['/panel/login']);
       return false;
     }
-    return false;
   }
 
-  canActivateChild(): boolean {
+  canActivateChild(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this._usuario.isAuthenticatedAdmin()) {
       return true;
     } else {
       this._router.navigate(['/panel/login']);
-      return false;
+      return true;
     }
   }
 

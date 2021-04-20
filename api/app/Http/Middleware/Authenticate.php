@@ -14,7 +14,7 @@ class Authenticate extends Middleware
         if (Auth::guard('api')->check()) {
             return $next($request);
         }
-        return Response::error("401", ['No inició sesión']);
+        return Response::error('490', ['No inició sesión']);
     }
 
 }

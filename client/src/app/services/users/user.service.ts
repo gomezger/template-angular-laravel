@@ -18,7 +18,7 @@ export class UserService {
     private _localStorage: LocalService
   ) { }
 
-  public login(email: string, password: string): Observable<any> {
+  login(email: string, password: string): Observable<any> {
     const data = {
       email,
       password,
@@ -27,18 +27,24 @@ export class UserService {
     return this._api.post('auth/login', data, null);
   }
 
-  public logout(): void {
+  logout(): void {
     this.deleteLoginData();
   }
 
-  public registro(nombre: string, apellido: string, email: string, password: string, password_confirmation: string, tipo: string)
+  signUp(nombre: string, apellido: string, email: string, password: string, password_confirmation: string, tipo: string)
     : Observable<any> {
 
     const data = { email, nombre, apellido, password, password_confirmation, tipo };
     return this._api.post('auth/signup', data, null);
   }
 
-  public setLoginData(data: any): void {
+  // Chequea si está el token de un user logeado o no
+  public isUserAuthenticated(): boolean {
+    const token = this._localStorage.getItem('token');
+    return (token != null && token !== undefined) ? this.isValidToken() : false;
+  }
+
+  setLoginData(data: any): void {
     const { access_token, expires_time, expires_at, user } = data;
     this._localStorage.setItem('token', access_token, expires_time);
     this._localStorage.setItem('expires_at', expires_at, expires_time);
@@ -53,17 +59,11 @@ export class UserService {
     this._localStorage.setItem('isLoggedin', 'false');
   }
 
-  // Chequea si está el token de un user logeado o no
-  public isUserAuthenticated(): boolean {
-    const token = this._localStorage.getItem('token');
-    return (token != null && token !== undefined) ? this.isValidToken() : false;
-  }
-
-  public isAuthenticatedAdmin(): boolean {
+  isAuthenticatedAdmin(): boolean {
     return this.isAuthenticated() && this.isAdmin();
   }
 
-  public isAuthenticated(): boolean {
+  isAuthenticated(): boolean {
     const token = this._localStorage.getItem('token');
     if (token !== undefined && token !== null && this.isValidToken()) {
       return true;
@@ -84,41 +84,36 @@ export class UserService {
     return user.role === 'admin';
   }
 
-  public user(): User {
+  user(): User {
     return (this.isUserAuthenticated()) ? JSON.parse(this._localStorage.getItem('user')) : null;
   }
 
-  public getToken(): string {
+  getToken(): string {
     const token = this._localStorage.getItem('token');
     return (token !== undefined) ? token : null;
   }
 
-  getUsuario(id: number, token: string): Observable<any> {
-    return this._api.get('user/' + id, token);
-  }
-
-  public dummy(): User {
+  dummy(): User {
     return new User(0, '', '', '', '', '', '', '');
   }
 
   all(token: string): Observable<any> {
     return this._api.get('user/', token);
   }
+
   insert(user: User, token: string): Observable<any> {
     return this._api.post('user/', user, token);
   }
+
   update({ id, nombre, email, password, role }: User, token: string): Observable<any> {
-    const data = {
-      id,
-      nombre,
-      email,
-      role
-    };
-    if (password && password.length > 0) { data['password'] = password; }
+    const data = { id, nombre, email, role };
+    if (password && password.length > 0) {
+      data[password = 'password'] = password;
+    }
     return this._api.put('user/', data, token);
   }
 
-  public delete(email: string, token: string): Observable<any> {
+  delete(email: string, token: string): Observable<any> {
     return this._api.del('user/' + email, token);
   }
 

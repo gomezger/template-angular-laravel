@@ -1,4 +1,4 @@
-import { GLOBAL } from './../config/global';
+import { GLOBAL } from '../../helpers/global';
 import { StorageService } from './storage.service';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { Injectable } from '@angular/core';

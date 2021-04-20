@@ -6,7 +6,8 @@ import { LoginComponent } from './login/login.component';
 import { AdminGuard } from '../../guards/admin.guard';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: 'login/:popup', component: LoginComponent },
+  { path: 'login/', component: LoginComponent },
   {
     path: '',
     component: PanelComponent,

@@ -1,5 +1,5 @@
-import { FilterService } from './../../../../services/filters/filter.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { Filter } from './../../../../helpers/filter';
 
 @Component({
   selector: 'xeron-multiselect-dropdown',
@@ -13,10 +13,11 @@ export class MultiselectDropdownComponent implements OnInit {
   @Input() selected: Array<any>;
   public listFilter: Array<any>;
   public agregar: boolean;
+  public filterHelper: Filter;
 
-  constructor(
-    protected _filter: FilterService
-  ) { }
+  constructor() {
+    this.filterHelper = new Filter();
+  }
 
   ngOnInit(): void {
     this.listFilter = [...this.list];
@@ -24,7 +25,7 @@ export class MultiselectDropdownComponent implements OnInit {
   }
 
   filter({ target: { value } }): void {
-    this.listFilter = this._filter.filtrar(value, this.list, [this.key]);
+    this.listFilter = this.filterHelper.filtrar(value, this.list, [this.key]);
   }
 
   add(item: any): void {

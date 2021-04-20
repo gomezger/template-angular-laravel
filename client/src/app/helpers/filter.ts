@@ -1,10 +1,4 @@
-import { User } from 'src/app/models/users/user';
-import { Injectable } from '@angular/core';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class FilterService {
+export class Filter {
 
   constructor() { }
 

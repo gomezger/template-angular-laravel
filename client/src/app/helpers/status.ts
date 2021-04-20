@@ -1,3 +1,4 @@
+import { GLOBAL } from './global';
 class Status {
 
   public errores: Array<string>;
@@ -65,6 +66,14 @@ class Status {
       );
     } else {
       this.setDefaultError(data);
+    }
+    if (
+      data.status === 490) {
+      const params = 'scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=400,height=500,left=100,top=100';
+      const loginWindow = window.open(GLOBAL.web + '/panel/login/popup', 'Login', params);
+      loginWindow.addEventListener('popstate', (event) => {
+        loginWindow.close();
+      });
     }
   }
 }

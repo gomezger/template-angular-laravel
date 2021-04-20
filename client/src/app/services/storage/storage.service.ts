@@ -1,3 +1,4 @@
+import { GLOBAL } from './../../helpers/global';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -11,7 +12,7 @@ export class StorageService {
   protected constructor() {
     this.storage = localStorage;
     this.days = 14;
-    this.prefix = 'template';
+    this.prefix = GLOBAL.storageKey;
   }
 
   /**

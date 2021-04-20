@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Status from '../../../helpers/status';
 import { User } from 'src/app/models/users/user';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/users/user.service';
 import { Title } from '@angular/platform-browser';
 
@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private _router: Router,
+    protected _activatedRoute: ActivatedRoute,
     private _usuario: UserService,
     private _title: Title
   ) { }
@@ -44,10 +45,19 @@ export class LoginComponent implements OnInit {
       next: ({ access_token, token_type, expires_at, user }) => {
         this._usuario.setLoginData({ access_token, token_type, expires_at, user });
         this.status.setSuccess();
-        this._router.navigate(['/panel/usuarios']);
+        this.navigate();
       },
       complete: () => this._router.navigate(['/panel']),
       error: error => this.status.processError(error)
+    });
+  }
+
+  navigate(): void {
+    // obtengo los parametros de la url
+    this._activatedRoute.params.subscribe({
+      next: ({ popup }) => {
+        (popup) ? window.close() : this._router.navigate(['/panel/usuarios']);
+      }
     });
   }
 

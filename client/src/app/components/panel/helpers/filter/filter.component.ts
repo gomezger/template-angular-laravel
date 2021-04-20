@@ -1,4 +1,4 @@
-import { FilterService } from './../../../../services/filters/filter.service';
+import { Filter } from './../../../../helpers/filter';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
@@ -12,10 +12,10 @@ export class FilterComponent implements OnInit {
   @Input() placeholder: string;
   @Output() newList: EventEmitter<Array<any>> = new EventEmitter();
   public textPlaceholder: string;
+  public filter: Filter;
 
-  constructor(
-    protected _filter: FilterService
-  ) {
+  constructor() {
+    this.filter = new Filter();
   }
 
   ngOnInit(): void {
@@ -23,7 +23,7 @@ export class FilterComponent implements OnInit {
   }
 
   filtrar({ target: { value } }): void {
-    this.newList.emit(this._filter.filtrar(value, this.list, this.keys));
+    this.newList.emit(this.filter.filtrar(value, this.list, this.keys));
   }
 
   acomodar(keys: Array<string>): Array<string> {
